@@ -1,5 +1,5 @@
 node_modules
-public/anand.jpg
+public/*.jpg
 dist
 .env
 .env.local
