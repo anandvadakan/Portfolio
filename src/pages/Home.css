@@ -49,6 +49,29 @@
   flex: 0 0 auto;
 }
 
+.hero__avatar-wrap {
+  position: relative;
+  width: 340px;
+  height: 420px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06);
+  animation: fade-up 0.6s 0.1s ease both;
+}
+
+.hero__avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.hero__avatar-wrap:hover .hero__avatar {
+  transform: scale(1.03);
+}
+
 /* ── Badge ── */
 .hero__badge {
   display: inline-flex;
