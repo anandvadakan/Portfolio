@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import CardSwap, { Card } from '../components/CardSwap'
 import ContactModal from '../components/ContactModal'
 import ProfileCard from '../components/ProfileCard'
@@ -48,6 +48,11 @@ function useReveal() {
 export default function Home() {
   const [showContact, setShowContact] = useState(false)
   const [csRef, csRevealed] = useReveal()
+  const navigate = useNavigate()
+
+  const handleCardClick = (i) => {
+    navigate(`/works/${caseStudies[i].slug}`)
+  }
 
   return (
     <main className="home">
@@ -118,46 +123,49 @@ export default function Home() {
       </section>
 
       <section ref={csRef} className={`case-studies-section ${csRevealed ? 'cs--revealed' : ''}`}>
-        <div className="cs-section__meta">
-          <p className="cs-section__label">Selected Work</p>
-          <h2 className="cs-section__title">Case Studies</h2>
-          <p className="cs-section__desc">
-            Real engagements. Measurable outcomes. Each project tackles a specific growth or operations challenge from first principles.
-          </p>
-          <Link to="/works" className="cs-section__link">
-            View all works <span aria-hidden="true">-&gt;</span>
-          </Link>
-        </div>
+        <div className="cs-section__inner">
+          <div className="cs-section__meta">
+            <p className="cs-section__label">Selected Work</p>
+            <h2 className="cs-section__title">Case Studies</h2>
+            <p className="cs-section__desc">
+              Real engagements. Measurable outcomes. Each project tackles a specific growth or operations challenge from first principles.
+            </p>
+            <Link to="/works" className="cs-section__link">
+              View all works <span aria-hidden="true">-&gt;</span>
+            </Link>
+          </div>
 
-        <div className="cs-section__swap-area">
-          <CardSwap
-            width={380}
-            height={300}
-            cardDistance={60}
-            verticalDistance={68}
-            delay={4000}
-            pauseOnHover
-            skewAmount={5}
-            easing="elastic"
-          >
-            {caseStudies.map((cs) => (
-              <Card key={cs.slug} customClass="case-card">
-                <Link to={`/works/${cs.slug}`} className="case-card__inner">
-                  <span
-                    className="case-card__tag"
-                    style={{ background: cs.tagColor, color: cs.accentColor }}
-                  >
-                    {cs.tag}
-                  </span>
-                  <h3 className="case-card__title">{cs.title}</h3>
-                  <p className="case-card__sub">{cs.subtitle}</p>
-                  <span className="case-card__cta" style={{ color: cs.accentColor }}>
-                    Read case study -&gt;
-                  </span>
-                </Link>
-              </Card>
-            ))}
-          </CardSwap>
+          <div className="cs-section__swap-area">
+            <CardSwap
+              width={380}
+              height={300}
+              cardDistance={60}
+              verticalDistance={68}
+              delay={4000}
+              pauseOnHover
+              skewAmount={5}
+              easing="elastic"
+              onCardClick={handleCardClick}
+            >
+              {caseStudies.map((cs) => (
+                <Card key={cs.slug} customClass="case-card">
+                  <div className="case-card__inner">
+                    <span
+                      className="case-card__tag"
+                      style={{ background: cs.tagColor, color: cs.accentColor }}
+                    >
+                      {cs.tag}
+                    </span>
+                    <h3 className="case-card__title">{cs.title}</h3>
+                    <p className="case-card__sub">{cs.subtitle}</p>
+                    <span className="case-card__cta" style={{ color: cs.accentColor }}>
+                      Read case study -&gt;
+                    </span>
+                  </div>
+                </Card>
+              ))}
+            </CardSwap>
+          </div>
         </div>
       </section>
 

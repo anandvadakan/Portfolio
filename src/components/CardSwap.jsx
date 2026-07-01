@@ -69,6 +69,9 @@ const CardSwap = ({
   const tlRef = useRef(null)
   const intervalRef = useRef()
   const container = useRef(null)
+  const isJumping = useRef(false)
+
+  const swapRef = useRef(null)
 
   useEffect(() => {
     const total = refs.length
@@ -132,16 +135,20 @@ const CardSwap = ({
       })
     }
 
+    swapRef.current = swap
+
     swap()
     intervalRef.current = window.setInterval(swap, delay)
 
     if (pauseOnHover) {
       const node = container.current
       const pause = () => {
+        if (isJumping.current) return
         tlRef.current?.pause()
         clearInterval(intervalRef.current)
       }
       const resume = () => {
+        if (isJumping.current) return
         tlRef.current?.play()
         intervalRef.current = window.setInterval(swap, delay)
       }
@@ -157,16 +164,44 @@ const CardSwap = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing])
 
+  const handleCardClickCapture = (e, i) => {
+    e.stopPropagation()
+    e.preventDefault()
+    if (isJumping.current) return
+    isJumping.current = true
+
+    tlRef.current?.kill()
+    clearInterval(intervalRef.current)
+
+    const el = refs[i].current
+    const cx = Number(gsap.getProperty(el, 'x'))
+    const cy = Number(gsap.getProperty(el, 'y'))
+
+    gsap.set(el, { zIndex: 9999 })
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        isJumping.current = false
+        onCardClick?.(i)
+      }
+    })
+
+    // Three parabolic hops leftward - rise/fall/rise/fall/rise/land
+    tl.to(el, { x: cx - 95,  y: cy - 115, duration: 0.21, ease: 'power2.out' })
+      .to(el, { x: cx - 200, y: cy + 18,  duration: 0.17, ease: 'power2.in'  })
+      .to(el, { x: cx - 310, y: cy - 80,  duration: 0.19, ease: 'power2.out' })
+      .to(el, { x: cx - 430, y: cy + 8,   duration: 0.15, ease: 'power2.in'  })
+      .to(el, { x: cx - 520, y: cy - 35,  duration: 0.16, ease: 'power2.out' })
+      .to(el, { x: cx - 640, y: cy + 2,   duration: 0.19, ease: 'power1.inOut' })
+  }
+
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
       ? cloneElement(child, {
           key: i,
           ref: refs[i],
           style: { width, height, ...(child.props.style ?? {}) },
-          onClick: e => {
-            child.props.onClick?.(e)
-            onCardClick?.(i)
-          }
+          onClickCapture: e => handleCardClickCapture(e, i)
         })
       : child
   )
