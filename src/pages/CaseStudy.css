@@ -108,8 +108,84 @@
   margin-bottom: 0.25rem;
 }
 
+.cs__context {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  font-style: italic;
+  border-left: 2px solid var(--border);
+  padding-left: 1.25rem;
+  margin-top: -0.5rem;
+}
+
+/* Sub case study block */
+.cs__sub {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.cs__sub-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.cs__sub-num {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  padding-top: 0.35rem;
+  flex-shrink: 0;
+}
+
+.cs__sub-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1.25;
+  margin-bottom: 0.3rem;
+}
+
+.cs__sub-meta {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Notion link */
+.cs__notion-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.4rem;
+  border: 1.5px solid;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  width: fit-content;
+  transition: opacity 0.2s, transform 0.2s;
+  margin-top: 0.5rem;
+}
+
+.cs__notion-link:hover {
+  opacity: 0.75;
+  transform: translateY(-1px);
+}
+
 @media (max-width: 600px) {
   .cs {
     padding: 6rem 1.5rem 4rem;
+  }
+
+  .cs__sub {
+    padding: 1.5rem;
   }
 }
