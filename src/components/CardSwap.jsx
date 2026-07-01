@@ -7,6 +7,8 @@ export const Card = forwardRef(({ customClass, ...rest }, ref) => (
 ))
 Card.displayName = 'Card'
 
+const HOVER_LIFT = 12
+
 const makeSlot = (i, distX, distY, total) => ({
   x: i * distX,
   y: -i * distY,
@@ -70,17 +72,45 @@ const CardSwap = ({
   const intervalRef = useRef()
   const container = useRef(null)
   const isJumping = useRef(false)
-
-  const swapRef = useRef(null)
+  const hoverStates = useRef({})
 
   useEffect(() => {
     const total = refs.length
     refs.forEach((r, i) => placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount))
 
+    // GSAP-driven hover lift per card
+    const cleanupHovers = refs.map((r, i) => {
+      const el = r.current
+
+      const onEnter = () => {
+        if (isJumping.current) return
+        hoverStates.current[i] = true
+        gsap.killTweensOf(el, 'y')
+        gsap.to(el, { y: `-=${HOVER_LIFT}`, duration: 0.28, ease: 'back.out(2)', overwrite: 'auto' })
+      }
+
+      const onLeave = () => {
+        if (!hoverStates.current[i]) return
+        hoverStates.current[i] = false
+        gsap.killTweensOf(el, 'y')
+        gsap.to(el, { y: `+=${HOVER_LIFT}`, duration: 0.22, ease: 'power2.out', overwrite: 'auto' })
+      }
+
+      el.addEventListener('mouseenter', onEnter)
+      el.addEventListener('mouseleave', onLeave)
+      return () => {
+        el.removeEventListener('mouseenter', onEnter)
+        el.removeEventListener('mouseleave', onLeave)
+      }
+    })
+
     const swap = () => {
       if (order.current.length < 2) return
 
       const [front, ...rest] = order.current
+      // Clear any hover lift on the card being swapped
+      hoverStates.current[front] = false
+
       const elFront = refs[front].current
       const tl = gsap.timeline()
       tlRef.current = tl
@@ -111,13 +141,7 @@ const CardSwap = ({
 
       const backSlot = makeSlot(refs.length - 1, cardDistance, verticalDistance, refs.length)
       tl.addLabel('return', `promote+=${config.durMove * config.returnDelay}`)
-      tl.call(
-        () => {
-          gsap.set(elFront, { zIndex: backSlot.zIndex })
-        },
-        undefined,
-        'return'
-      )
+      tl.call(() => gsap.set(elFront, { zIndex: backSlot.zIndex }), undefined, 'return')
       tl.to(
         elFront,
         {
@@ -130,12 +154,8 @@ const CardSwap = ({
         'return'
       )
 
-      tl.call(() => {
-        order.current = [...rest, front]
-      })
+      tl.call(() => { order.current = [...rest, front] })
     }
-
-    swapRef.current = swap
 
     swap()
     intervalRef.current = window.setInterval(swap, delay)
@@ -158,9 +178,14 @@ const CardSwap = ({
         node.removeEventListener('mouseenter', pause)
         node.removeEventListener('mouseleave', resume)
         clearInterval(intervalRef.current)
+        cleanupHovers.forEach(fn => fn())
       }
     }
-    return () => clearInterval(intervalRef.current)
+
+    return () => {
+      clearInterval(intervalRef.current)
+      cleanupHovers.forEach(fn => fn())
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing])
 
@@ -169,6 +194,7 @@ const CardSwap = ({
     e.preventDefault()
     if (isJumping.current) return
     isJumping.current = true
+    hoverStates.current[i] = false
 
     tlRef.current?.kill()
     clearInterval(intervalRef.current)
@@ -179,6 +205,7 @@ const CardSwap = ({
 
     gsap.set(el, { zIndex: 9999 })
 
+    // Three arcs upward-right, card rotates and fades out
     const tl = gsap.timeline({
       onComplete: () => {
         isJumping.current = false
@@ -186,13 +213,11 @@ const CardSwap = ({
       }
     })
 
-    // Three parabolic hops leftward - rise/fall/rise/fall/rise/land
-    tl.to(el, { x: cx - 95,  y: cy - 115, duration: 0.21, ease: 'power2.out' })
-      .to(el, { x: cx - 200, y: cy + 18,  duration: 0.17, ease: 'power2.in'  })
-      .to(el, { x: cx - 310, y: cy - 80,  duration: 0.19, ease: 'power2.out' })
-      .to(el, { x: cx - 430, y: cy + 8,   duration: 0.15, ease: 'power2.in'  })
-      .to(el, { x: cx - 520, y: cy - 35,  duration: 0.16, ease: 'power2.out' })
-      .to(el, { x: cx - 640, y: cy + 2,   duration: 0.19, ease: 'power1.inOut' })
+    tl.to(el, { x: cx + 25,  y: cy - 85,  rotate: -4, duration: 0.22, ease: 'power2.out' })
+      .to(el, { x: cx + 55,  y: cy - 30,  rotate:  3, duration: 0.17, ease: 'power2.in'  })
+      .to(el, { x: cx + 85,  y: cy - 150, rotate: -6, duration: 0.22, ease: 'power2.out' })
+      .to(el, { x: cx + 115, y: cy - 80,  rotate:  5, duration: 0.17, ease: 'power2.in'  })
+      .to(el, { x: cx + 150, y: cy - 280, rotate: 14, opacity: 0, duration: 0.32, ease: 'power1.out' })
   }
 
   const rendered = childArr.map((child, i) =>
