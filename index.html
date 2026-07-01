@@ -9,8 +9,18 @@
       (function() {
         var redirect = sessionStorage.redirect;
         delete sessionStorage.redirect;
-        if (redirect && redirect !== location.href) {
-          history.replaceState(null, null, redirect);
+        if (redirect) {
+          var search = redirect.slice(1).split('&').reduce(function(o, v) {
+            var pair = v.split('=');
+            o[pair[0]] = pair.slice(1).join('=').replace(/~and~/g, '&');
+            return o;
+          }, {});
+          if (search.p !== undefined) {
+            window.history.replaceState(
+              null, null,
+              '/Portfolio/' + (search.p || '') + (search.q ? '?' + search.q : '') + (redirect.split('#')[1] ? '#' + redirect.split('#')[1] : '')
+            );
+          }
         }
       })();
     </script>
