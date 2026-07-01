@@ -49,21 +49,7 @@ function useReveal() {
 const ILLUSTRATIONS = {
   'gst-saas-strategy': (
     <svg viewBox="0 0 260 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      {/* Funnel / GTM pipeline */}
-      <path d="M20 20 L240 20 L190 55 L70 55 Z" fill="rgba(61,90,128,0.18)" stroke="rgba(122,163,200,0.25)" strokeWidth="1"/>
-      <path d="M70 62 L190 62 L160 97 L100 97 Z" fill="rgba(61,90,128,0.14)" stroke="rgba(122,163,200,0.2)" strokeWidth="1"/>
-      <path d="M100 104 L160 104 L145 118 L115 118 Z" fill="rgba(61,90,128,0.22)" stroke="rgba(122,163,200,0.3)" strokeWidth="1"/>
-      {/* Segment dots */}
-      <circle cx="70" cy="37" r="4" fill="rgba(122,163,200,0.5)"/>
-      <circle cx="130" cy="37" r="4" fill="rgba(122,163,200,0.35)"/>
-      <circle cx="190" cy="37" r="4" fill="rgba(122,163,200,0.25)"/>
-      {/* Arrow */}
-      <path d="M130 118 L130 128 M125 123 L130 128 L135 123" stroke="rgba(122,163,200,0.4)" strokeWidth="1.5" strokeLinecap="round"/>
-    </svg>
-  ),
-  'funnel-optimization': (
-    <svg viewBox="0 0 260 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      {/* Line chart with upward trend */}
+      {/* Line chart - GTM growth trend */}
       <polyline points="20,95 60,80 100,70 130,50 165,35 200,18 240,10" stroke="rgba(122,163,200,0.45)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
       <polyline points="20,95 60,80 100,70 130,50 165,35 200,18 240,10 240,110 20,110 Z" fill="rgba(61,90,128,0.1)"/>
       {/* Grid lines */}
@@ -74,7 +60,21 @@ const ILLUSTRATIONS = {
       <circle cx="100" cy="70" r="4" fill="rgba(122,163,200,0.5)" stroke="rgba(122,163,200,0.8)" strokeWidth="1.5"/>
       <circle cx="200" cy="18" r="4" fill="rgba(122,163,200,0.6)" stroke="rgba(122,163,200,0.9)" strokeWidth="1.5"/>
       {/* Label */}
-      <text x="205" y="14" fill="rgba(122,163,200,0.6)" fontSize="9" fontFamily="sans-serif">38%</text>
+      <text x="205" y="14" fill="rgba(122,163,200,0.6)" fontSize="9" fontFamily="sans-serif">GTM</text>
+    </svg>
+  ),
+  'funnel-optimization': (
+    <svg viewBox="0 0 260 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      {/* Funnel - conversion stages */}
+      <path d="M20 20 L240 20 L190 55 L70 55 Z" fill="rgba(61,90,128,0.18)" stroke="rgba(122,163,200,0.25)" strokeWidth="1"/>
+      <path d="M70 62 L190 62 L160 97 L100 97 Z" fill="rgba(61,90,128,0.14)" stroke="rgba(122,163,200,0.2)" strokeWidth="1"/>
+      <path d="M100 104 L160 104 L145 118 L115 118 Z" fill="rgba(61,90,128,0.22)" stroke="rgba(122,163,200,0.3)" strokeWidth="1"/>
+      {/* Segment dots */}
+      <circle cx="70" cy="37" r="4" fill="rgba(122,163,200,0.5)"/>
+      <circle cx="130" cy="37" r="4" fill="rgba(122,163,200,0.35)"/>
+      <circle cx="190" cy="37" r="4" fill="rgba(122,163,200,0.25)"/>
+      {/* Arrow */}
+      <path d="M130 118 L130 128 M125 123 L130 128 L135 123" stroke="rgba(122,163,200,0.4)" strokeWidth="1.5" strokeLinecap="round"/>
     </svg>
   ),
   'ops-efficiency-model': (
@@ -162,8 +162,8 @@ export default function Home() {
 
             <div className="hero__stats">
               <div className="hero__stat">
-                <span className="hero__stat-num">3+</span>
-                <span className="hero__stat-label">Case Studies</span>
+                <span className="hero__stat-num">B2B</span>
+                <span className="hero__stat-label">Focused</span>
               </div>
               <div className="hero__stat-divider" />
               <div className="hero__stat">
