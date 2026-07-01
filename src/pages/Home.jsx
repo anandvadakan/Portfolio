@@ -129,11 +129,6 @@ export default function Home() {
 
         <div className="hero__content">
           <div className="hero__text">
-            <div className="hero__badge">
-              <span className="hero__badge-dot" />
-              Available for new projects
-            </div>
-
             <SplitText
               tag="h1"
               text="Anand V"
