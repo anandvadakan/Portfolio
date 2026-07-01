@@ -203,9 +203,14 @@ const CardSwap = ({
     const cx = Number(gsap.getProperty(el, 'x'))
     const cy = Number(gsap.getProperty(el, 'y'))
 
+    // Compute how far left the card must travel to reach the left edge of viewport
+    const rect = container.current.getBoundingClientRect()
+    const cardCenterViewportX = rect.left + rect.width / 2 + cx
+    const targetViewportX = width / 2 + 20
+    const deltaX = targetViewportX - cardCenterViewportX // large negative number
+
     gsap.set(el, { zIndex: 9999 })
 
-    // Three arcs upward-right, card rotates and fades out
     const tl = gsap.timeline({
       onComplete: () => {
         isJumping.current = false
@@ -213,11 +218,20 @@ const CardSwap = ({
       }
     })
 
-    tl.to(el, { x: cx + 25,  y: cy - 85,  rotate: -4, duration: 0.22, ease: 'power2.out' })
-      .to(el, { x: cx + 55,  y: cy - 30,  rotate:  3, duration: 0.17, ease: 'power2.in'  })
-      .to(el, { x: cx + 85,  y: cy - 150, rotate: -6, duration: 0.22, ease: 'power2.out' })
-      .to(el, { x: cx + 115, y: cy - 80,  rotate:  5, duration: 0.17, ease: 'power2.in'  })
-      .to(el, { x: cx + 150, y: cy - 280, rotate: 14, opacity: 0, duration: 0.32, ease: 'power1.out' })
+    // Three progressively smaller hops leftward - rise with power2.out, land with bounce.out
+    const hops = [
+      { frac: 0.36, peak: 155, riseDur: 0.26, fallDur: 0.34 },
+      { frac: 0.68, peak: 88,  riseDur: 0.21, fallDur: 0.28 },
+      { frac: 1.00, peak: 42,  riseDur: 0.17, fallDur: 0.23 },
+    ]
+
+    let prevFrac = 0
+    hops.forEach(({ frac, peak, riseDur, fallDur }) => {
+      const midFrac = (prevFrac + frac) / 2
+      tl.to(el, { x: cx + deltaX * midFrac, y: cy - peak, duration: riseDur, ease: 'power2.out' })
+      tl.to(el, { x: cx + deltaX * frac,    y: cy,        duration: fallDur, ease: 'bounce.out' })
+      prevFrac = frac
+    })
   }
 
   const rendered = childArr.map((child, i) =>
