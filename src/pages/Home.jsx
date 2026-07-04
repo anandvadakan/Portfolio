@@ -47,20 +47,25 @@ function useReveal() {
 }
 
 const ILLUSTRATIONS = {
-  'gst-saas-strategy': (
+  'cancellations-revenue': (
     <svg viewBox="0 0 260 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      {/* Line chart - GTM growth trend */}
-      <polyline points="20,95 60,80 100,70 130,50 165,35 200,18 240,10" stroke="rgba(122,163,200,0.9)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-      <polyline points="20,95 60,80 100,70 130,50 165,35 200,18 240,10 240,110 20,110 Z" fill="rgba(61,90,128,0.25)"/>
+      {/* Drop - cancellation event */}
+      <polyline points="20,30 75,30 90,80" stroke="rgba(180,80,80,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+      {/* Recovery arc back up */}
+      <polyline points="90,80 130,65 175,40 240,18" stroke="rgba(80,180,120,0.85)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+      {/* Shaded recovery area */}
+      <polyline points="90,80 130,65 175,40 240,18 240,110 90,110 Z" fill="rgba(45,106,79,0.18)"/>
       {/* Grid lines */}
-      <line x1="20" y1="30" x2="240" y2="30" stroke="rgba(255,255,255,0.12)" strokeWidth="1"/>
-      <line x1="20" y1="60" x2="240" y2="60" stroke="rgba(255,255,255,0.12)" strokeWidth="1"/>
-      <line x1="20" y1="90" x2="240" y2="90" stroke="rgba(255,255,255,0.12)" strokeWidth="1"/>
-      {/* Highlight dots */}
-      <circle cx="100" cy="70" r="5" fill="rgba(122,163,200,0.85)" stroke="rgba(168,198,225,0.9)" strokeWidth="1.5"/>
-      <circle cx="200" cy="18" r="5" fill="rgba(122,163,200,0.95)" stroke="rgba(168,198,225,1)" strokeWidth="1.5"/>
-      {/* Label */}
-      <text x="207" y="14" fill="rgba(168,198,225,0.95)" fontSize="10" fontFamily="sans-serif" fontWeight="600">GTM</text>
+      <line x1="20" y1="30" x2="240" y2="30" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      <line x1="20" y1="60" x2="240" y2="60" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      <line x1="20" y1="90" x2="240" y2="90" stroke="rgba(255,255,255,0.08)" strokeWidth="1"/>
+      {/* Cancellation dot */}
+      <circle cx="90" cy="80" r="5" fill="rgba(180,80,80,0.9)" stroke="rgba(220,120,120,0.9)" strokeWidth="1.5"/>
+      {/* Recovery dot */}
+      <circle cx="175" cy="40" r="5" fill="rgba(80,180,120,0.9)" stroke="rgba(120,210,160,0.9)" strokeWidth="1.5"/>
+      {/* Labels */}
+      <text x="62" y="92" fill="rgba(220,120,120,0.85)" fontSize="8" fontFamily="sans-serif" fontWeight="600">CANCEL</text>
+      <text x="180" y="36" fill="rgba(80,200,130,0.9)" fontSize="8" fontFamily="sans-serif" fontWeight="600">RECOVER</text>
     </svg>
   ),
   'delay-accountability': (
