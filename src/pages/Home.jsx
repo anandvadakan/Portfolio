@@ -63,18 +63,24 @@ const ILLUSTRATIONS = {
       <text x="207" y="14" fill="rgba(168,198,225,0.95)" fontSize="10" fontFamily="sans-serif" fontWeight="600">GTM</text>
     </svg>
   ),
-  'funnel-optimization': (
+  'delay-accountability': (
     <svg viewBox="0 0 260 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      {/* Funnel - conversion stages */}
-      <path d="M20 20 L240 20 L190 55 L70 55 Z" fill="rgba(61,90,128,0.45)" stroke="rgba(122,163,200,0.7)" strokeWidth="1.5"/>
-      <path d="M70 62 L190 62 L160 97 L100 97 Z" fill="rgba(61,90,128,0.38)" stroke="rgba(122,163,200,0.6)" strokeWidth="1.5"/>
-      <path d="M100 104 L160 104 L145 118 L115 118 Z" fill="rgba(61,90,128,0.55)" stroke="rgba(122,163,200,0.8)" strokeWidth="1.5"/>
-      {/* Segment dots */}
-      <circle cx="70" cy="37" r="5" fill="rgba(122,163,200,0.9)"/>
-      <circle cx="130" cy="37" r="5" fill="rgba(122,163,200,0.75)"/>
-      <circle cx="190" cy="37" r="5" fill="rgba(122,163,200,0.6)"/>
-      {/* Arrow */}
-      <path d="M130 118 L130 128 M125 123 L130 128 L135 123" stroke="rgba(122,163,200,0.85)" strokeWidth="2" strokeLinecap="round"/>
+      {/* Clock face */}
+      <circle cx="130" cy="60" r="48" fill="rgba(61,90,128,0.2)" stroke="rgba(122,163,200,0.55)" strokeWidth="1.5"/>
+      {/* Restaurant slice - warm red, top-right */}
+      <path d="M130 60 L130 14 A46 46 0 0 1 169 83 Z" fill="rgba(180,80,80,0.3)" stroke="rgba(200,100,100,0.5)" strokeWidth="1"/>
+      {/* Platform slice - blue, top-left */}
+      <path d="M130 60 L130 14 A46 46 0 0 0 91 83 Z" fill="rgba(61,90,128,0.45)" stroke="rgba(122,163,200,0.6)" strokeWidth="1"/>
+      {/* External slice - grey, bottom */}
+      <path d="M130 60 L91 83 A46 46 0 0 0 169 83 Z" fill="rgba(80,80,100,0.3)" stroke="rgba(140,140,170,0.45)" strokeWidth="1"/>
+      {/* Clock hands */}
+      <line x1="130" y1="60" x2="130" y2="25" stroke="rgba(200,220,240,0.9)" strokeWidth="2.5" strokeLinecap="round"/>
+      <line x1="130" y1="60" x2="155" y2="72" stroke="rgba(200,220,240,0.7)" strokeWidth="1.8" strokeLinecap="round"/>
+      <circle cx="130" cy="60" r="3.5" fill="rgba(200,220,240,0.95)"/>
+      {/* Labels */}
+      <text x="148" y="38" fill="rgba(220,130,130,0.9)" fontSize="8.5" fontFamily="sans-serif" fontWeight="600">REST</text>
+      <text x="98" y="38" fill="rgba(122,163,200,0.9)" fontSize="8.5" fontFamily="sans-serif" fontWeight="600">PLAT</text>
+      <text x="116" y="108" fill="rgba(160,160,190,0.8)" fontSize="8.5" fontFamily="sans-serif" fontWeight="600">EXT</text>
     </svg>
   ),
   'organic-food-gtm': (
