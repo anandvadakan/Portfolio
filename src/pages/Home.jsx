@@ -90,27 +90,20 @@ const ILLUSTRATIONS = {
   ),
   'organic-food-gtm': (
     <svg viewBox="0 0 260 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      {/* Central leaf - centred */}
-      <path d="M130 95 Q95 78 88 48 Q108 22 138 28 Q162 34 158 68 Q150 88 130 95Z" fill="rgba(58,125,68,0.32)" stroke="rgba(100,180,100,0.75)" strokeWidth="1.5"/>
-      {/* Midrib */}
-      <path d="M130 95 Q124 68 128 30" stroke="rgba(100,180,100,0.65)" strokeWidth="1.5" strokeLinecap="round"/>
-      {/* Veins */}
-      <path d="M127 52 Q112 47 104 38" stroke="rgba(100,180,100,0.45)" strokeWidth="1" strokeLinecap="round"/>
-      <path d="M128 68 Q114 64 106 56" stroke="rgba(100,180,100,0.38)" strokeWidth="1" strokeLinecap="round"/>
-      <path d="M129 40 Q140 36 148 30" stroke="rgba(100,180,100,0.38)" strokeWidth="1" strokeLinecap="round"/>
-      {/* Three market nodes arranged around the leaf */}
-      <circle cx="48" cy="38" r="6" fill="rgba(58,125,68,0.4)" stroke="rgba(100,180,100,0.7)" strokeWidth="1.2"/>
-      <circle cx="48" cy="75" r="6" fill="rgba(58,125,68,0.4)" stroke="rgba(100,180,100,0.7)" strokeWidth="1.2"/>
-      <circle cx="210" cy="55" r="6" fill="rgba(58,125,68,0.4)" stroke="rgba(100,180,100,0.7)" strokeWidth="1.2"/>
-      {/* Connector lines from leaf to nodes */}
-      <line x1="88" y1="50" x2="54" y2="42" stroke="rgba(100,180,100,0.35)" strokeWidth="1" strokeDasharray="3 3"/>
-      <line x1="90" y1="68" x2="54" y2="73" stroke="rgba(100,180,100,0.35)" strokeWidth="1" strokeDasharray="3 3"/>
-      <line x1="158" y1="55" x2="204" y2="55" stroke="rgba(100,180,100,0.35)" strokeWidth="1" strokeDasharray="3 3"/>
-      {/* Node labels */}
-      <text x="34" y="26" fill="rgba(100,180,100,0.8)" fontSize="7.5" fontFamily="sans-serif" fontWeight="600">D2C</text>
-      <text x="28" y="93" fill="rgba(100,180,100,0.8)" fontSize="7.5" fontFamily="sans-serif" fontWeight="600">RETAIL</text>
-      <text x="198" y="43" fill="rgba(100,180,100,0.8)" fontSize="7.5" fontFamily="sans-serif" fontWeight="600">QUICK</text>
-      <text x="200" y="53" fill="rgba(100,180,100,0.8)" fontSize="7.5" fontFamily="sans-serif" fontWeight="600">COMM</text>
+      {/* Leaf accent */}
+      <path d="M32 78 Q18 60 20 36 Q38 20 52 32 Q62 44 50 66 Q43 76 32 78Z" fill="rgba(58,125,68,0.3)" stroke="rgba(100,180,100,0.65)" strokeWidth="1.2"/>
+      <path d="M32 78 Q34 58 30 34" stroke="rgba(100,180,100,0.55)" strokeWidth="1" strokeLinecap="round"/>
+      <path d="M30 52 Q22 47 20 40" stroke="rgba(100,180,100,0.35)" strokeWidth="0.8" strokeLinecap="round"/>
+      <path d="M31 64 Q23 60 20 54" stroke="rgba(100,180,100,0.3)" strokeWidth="0.8" strokeLinecap="round"/>
+      {/* D2C bar - longest */}
+      <text x="76" y="36" fill="rgba(100,180,100,0.75)" fontSize="8" fontFamily="sans-serif" fontWeight="600">D2C</text>
+      <rect x="76" y="40" width="148" height="10" rx="2" fill="rgba(58,125,68,0.45)" stroke="rgba(100,180,100,0.55)" strokeWidth="1"/>
+      {/* Retail bar - medium */}
+      <text x="76" y="64" fill="rgba(100,180,100,0.75)" fontSize="8" fontFamily="sans-serif" fontWeight="600">RETAIL</text>
+      <rect x="76" y="68" width="100" height="10" rx="2" fill="rgba(58,125,68,0.35)" stroke="rgba(100,180,100,0.45)" strokeWidth="1"/>
+      {/* Quick Commerce bar - shortest */}
+      <text x="76" y="92" fill="rgba(100,180,100,0.75)" fontSize="8" fontFamily="sans-serif" fontWeight="600">QUICK COMM</text>
+      <rect x="76" y="96" width="62" height="10" rx="2" fill="rgba(58,125,68,0.25)" stroke="rgba(100,180,100,0.35)" strokeWidth="1"/>
     </svg>
   ),
   'ops-efficiency-model': (
