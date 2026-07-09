@@ -1,7 +1,9 @@
 .exec {
   max-width: 720px;
+  width: 100%;
   margin: 0 auto;
-  padding: 7rem 3rem 6rem;
+  padding: 7rem clamp(1.25rem, 5vw, 3rem) 6rem;
+  box-sizing: border-box;
 }
 
 .exec--notfound {
