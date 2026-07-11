@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import PillNav from './PillNav'
 import './Nav.css'
 
@@ -30,7 +30,7 @@ export default function Nav() {
   return (
     <>
       <header className={`nav${scrolled ? ' nav--scrolled' : ''}`}>
-        <a href="/" className="nav__brand"></a>
+        <Link to="/" className="nav__brand"></Link>
       </header>
       <PillNav
         items={visibleItems}

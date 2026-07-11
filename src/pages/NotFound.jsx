@@ -1,28 +1,22 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import FaultyTerminal from '../components/FaultyTerminal'
+import PixelSnow from '../components/PixelSnow'
 import './NotFound.css'
 
 export default function NotFound() {
   return (
     <main className="nf">
       <div className="nf__bg">
-        <FaultyTerminal
-          scale={1.4}
-          gridMul={[2, 1]}
-          digitSize={1.4}
-          timeScale={0.3}
-          scanlineIntensity={0.6}
-          glitchAmount={1.3}
-          flickerAmount={1}
-          noiseAmp={0.8}
-          chromaticAberration={0.8}
-          curvature={0.08}
-          tint="#7aa3c8"
-          mouseReact={true}
-          mouseStrength={0.4}
-          pageLoadAnimation={true}
-          brightness={0.9}
+        <PixelSnow
+          color="#f97316"
+          flakeSize={0.01}
+          minFlakeSize={1.25}
+          pixelResolution={180}
+          speed={1.0}
+          density={0.22}
+          direction={125}
+          brightness={1}
+          variant="square"
         />
       </div>
 

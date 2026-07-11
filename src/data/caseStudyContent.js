@@ -10,7 +10,7 @@ export const caseStudyContent = [
     hook: 'What if a cancelled order could make the platform more money than a completed one?',
     tag: 'Operations',
     accentColor: '#c2410c',
-    tagColor: 'rgba(249, 115, 22, 0.15)',
+    tagColor: 'rgba(249, 115, 22, 0.22)',
 
     shortForm: `Food delivery platforms treat order cancellations as a cost of doing business. They shouldn't.
 
@@ -210,7 +210,7 @@ This case study proposes two interconnected systems - FlexCancel (a time-staged 
     hook: 'The delivery partner got a 1-star review for a delay caused by the restaurant. No platform has fixed this.',
     tag: 'Operations',
     accentColor: '#c2410c',
-    tagColor: 'rgba(249, 115, 22, 0.15)',
+    tagColor: 'rgba(249, 115, 22, 0.22)',
 
     shortForm: `When food arrives late, the customer is angry. They leave a one-star review. The delivery partner receives it. But the delivery partner was waiting outside the restaurant for 22 minutes while the kitchen ran behind. They had nothing to do with the delay.
 

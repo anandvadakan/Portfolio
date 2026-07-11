@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #0d1117;
+  background: var(--bg);
 }
 
 .nf__bg {
@@ -13,11 +13,10 @@
   inset: 0;
 }
 
-/* subtle dark gradient on top so text reads cleanly */
 .nf__overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, rgba(13,17,23,0.35) 0%, rgba(13,17,23,0.65) 100%);
+  background: radial-gradient(ellipse at center, rgba(19,18,16,0.2) 0%, rgba(19,18,16,0.7) 100%);
   pointer-events: none;
 }
 
@@ -37,8 +36,8 @@
   font-weight: 700;
   letter-spacing: -0.06em;
   line-height: 1;
-  color: #f7f7f5;
-  opacity: 0.07;
+  color: var(--accent);
+  opacity: 0.08;
   user-select: none;
   margin-bottom: -1rem;
 }
@@ -47,12 +46,12 @@
   font-size: clamp(1.6rem, 4vw, 2.5rem);
   font-weight: 600;
   letter-spacing: -0.03em;
-  color: #f0f2f5;
+  color: var(--text-primary);
 }
 
 .nf__desc {
   font-size: 0.975rem;
-  color: rgba(220, 228, 240, 0.6);
+  color: var(--text-secondary);
   line-height: 1.65;
   max-width: 320px;
 }
@@ -63,8 +62,8 @@
   gap: 0.4rem;
   margin-top: 1rem;
   padding: 0.65rem 1.5rem;
-  background: #f7f7f5;
-  color: #0d1117;
+  background: var(--accent);
+  color: #fff;
   border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 600;
