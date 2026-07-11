@@ -28,7 +28,7 @@ export default function Nav() {
   return (
     <>
       <header className={`nav${scrolled ? ' nav--scrolled' : ''}`}>
-        <a href="/" className="nav__brand">Anand V</a>
+        <a href="/" className="nav__brand"></a>
       </header>
       <PillNav
         items={NAV_ITEMS}
