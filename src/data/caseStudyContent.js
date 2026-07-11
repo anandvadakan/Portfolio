@@ -67,63 +67,137 @@ This case study proposes two interconnected systems - FlexCancel (a time-staged 
     execution: {
       brd: {
         title: 'Business Requirements Document',
-        subtitle: 'FlexCancel + HotDrop - Adaptive Cancellation & Recovery Engine',
+        subtitle: 'FlexCancel - Adaptive Cancellation Policy System\nDocument Type: Combined BRD / FRD / A-B Test Design | Owner: Anand V | Status: Draft - Portfolio Case Study | Version: 1.0',
         coming: false,
         sections: [
           {
-            heading: 'Business Context',
-            body: `Food delivery platforms currently treat order cancellations as an unavoidable cost. The cancellation rate on most platforms ranges between 8-15% of total orders. Each cancellation results in full refund issuance, partial or no restaurant compensation, unrecovered delivery partner costs, and food waste with no recovery mechanism.\n\nThis document defines the business requirements for a two-part system - FlexCancel and HotDrop - that converts cancellations from a cost event into a recoverable, partially monetisable operation.`,
+            heading: '1.1 Executive Summary',
+            body: `Food delivery platforms apply a single, flat cancellation policy regardless of order stage - full refund or full charge. This creates two simultaneous revenue leaks: genuine customer mistakes (mis-clicks, address errors) are penalized like intentional cancellations, damaging trust and increasing support load; late-stage cancellations, where food cost and labor are already sunk, are under-recovered, directly hurting margin. FlexCancel proposes a tiered, prep-stage-aware cancellation policy to close both leaks without adding friction to the majority of orders that are never cancelled.`,
           },
           {
-            heading: 'Business Objectives',
-            body: `1. Reduce total cancellation rate by 15-25% within 6 months of full rollout.\n2. Recover 25-40% of cancelled order value through HotDrop or alternative recovery channels.\n3. Improve platform contribution margin by 3-5 percentage points on affected order cohort.\n4. Generate measurable subscription conversion uplift from HotDrop notification touchpoints.\n5. Reduce food waste from cancelled orders by at least 20% in pilot cities.`,
+            heading: '1.2 Background & Problem Statement',
+            body: `Analysis of cancellation timing patterns (industry-observed, not platform-specific) shows the large majority of cancellations occur within 60-90 seconds of order placement - consistent with decision-friction behavior (accidental taps, quick change of mind) rather than deliberate abandonment. Current flat policies do not distinguish this window from a cancellation occurring after the kitchen has committed resources to the order.`,
           },
           {
-            heading: 'Stakeholders',
-            body: `Primary: Platform operations team (owns cancellation policy and P&L), product team (owns cancellation flow UX).\n\nSecondary: Restaurant partners (affected by cancellation rates and compensation policy), delivery partners (affected by trip completion rates and compensation), finance (affected by refund liability and margin).`,
+            heading: '1.3 Business Objectives',
+            body: `Primary: Reduce net cancellation-driven revenue loss by 15-25% within 90 days of full rollout.\nSecondary: Reduce cancellation-related customer complaints by 20%.\nSecondary: Reduce restaurant-reported food-prep waste tied to cancelled orders by 30%.`,
           },
           {
-            heading: 'Business Requirements: FlexCancel',
-            body: `BR-FC-01: The platform must replace the single-state cancellation policy with a time-staged model of at minimum three stages.\n\nBR-FC-02: Stage boundaries must be configurable by the operations team without an engineering release (via ops dashboard).\n\nBR-FC-03: The system must send a real-time signal to the restaurant at Stage 1 to delay preparation start, minimising food waste on early cancellations.\n\nBR-FC-04: Cancellation fees collected must be attributed to a defined recovery pool, with allocation split between delivery partner compensation and HotDrop subsidy defined in policy.\n\nBR-FC-05: The abuse detection system must trigger flags at the 7-day and 30-day windows and automatically adjust the cancellation buffer for flagged users without manual intervention.`,
+            heading: '1.4 Stakeholders',
+            table: {
+              headers: ['Stakeholder', 'Interest / Impact'],
+              rows: [
+                ['Product/Ops', 'Owns policy configuration, monitors metric outcomes'],
+                ['Restaurant Partners', 'Directly affected by prep-start timing change; needs clear communication and opt-in period'],
+                ['Delivery Partners', 'Indirect impact - fewer wasted trips to restaurants for orders cancelled pre-dispatch'],
+                ['Customer Support', 'Handles disputes on refund-tier boundary cases; needs clear escalation SOP'],
+                ['Finance', 'Tracks refund cost impact, validates margin recovery claims'],
+                ['Engineering', 'Builds/maintains the tiered refund logic and prep-hold trigger'],
+              ],
+            },
           },
           {
-            heading: 'Business Requirements: HotDrop',
-            body: `BR-HD-01: When an order enters Stage 2 or Stage 3 cancellation, the system must automatically evaluate whether a HotDrop recovery event is viable based on: geographic density (minimum addressable user radius), time of day (peak/off-peak), and cuisine type (perishability proxy).\n\nBR-HD-02: If HotDrop viability criteria are met, a time-bound recovery listing must be created and surfaced to nearby eligible users within 3 minutes of cancellation confirmation.\n\nBR-HD-03: HotDrop pricing must be structured as fee waivers, not food price reductions, to protect restaurant margin.\n\nBR-HD-04: The original assigned delivery partner must be given priority assignment on the HotDrop trip. If unavailable, standard dispatch rules apply.\n\nBR-HD-05: HotDrop conversions involving a first-time customer for that restaurant must trigger a new customer introduction fee payable by the restaurant.\n\nBR-HD-06: If HotDrop viability criteria are not met, the system must default to pre-configured fallback options (food donation partner dispatch or restaurant recovery credit).`,
+            heading: '1.5 Scope',
+            body: `In scope: Customer-initiated cancellations, tiered refund logic, restaurant prep-hold mechanism, abuse detection for repeat cancellers.\n\nOut of scope (v1): Restaurant-initiated cancellations (kitchen stockouts etc.), recovery/resale of already-prepared cancelled orders (separate initiative), per-user personalized windows.`,
           },
           {
-            heading: 'Out of Scope',
-            body: `- Changes to restaurant-side order acceptance flow.\n- Cross-platform HotDrop listings (HotDrop is platform-internal only).\n- Real-time food perishability tracking (cuisine-type proxy used instead).\n- Refund dispute resolution workflow (separate workstream).`,
+            heading: '1.6 Assumptions',
+            body: `Restaurants are willing to hold prep-start for a short window if it's communicated as reducing their own waste.\n\nServer-side order-stage timestamps are reliable and not subject to significant latency.\n\nExisting refund infrastructure supports partial (tiered) refunds without a full rebuild.`,
           },
           {
-            heading: 'Success Metrics',
-            body: `Overall cancellation rate: Baseline ~12% → Target <9% (6 months)\nStage 1 cancellation share: Baseline ~70% → Target >80%\nHotDrop conversion rate: - → Target 15-20%\nRevenue recovered per cancelled order: ₹0 → Target ₹40-80\nContribution margin on affected cohort: Baseline → Target +3-5pp\nAbuse flag rate: - → Target <2% of users`,
+            heading: '1.7 Risks & Dependencies',
+            table: {
+              headers: ['Risk', 'Mitigation'],
+              rows: [
+                ['Restaurants ignore the prep-hold and start early anyway', 'Add ops override + spot audits; restaurant-side compliance dashboard'],
+                ['Customers perceive partial refunds as unfair', 'Clear in-app reason string at cancellation point; support SOP for edge-case disputes'],
+                ['Delayed prep-start hurts delivery SLA', 'Cap window length based on A/B test results (Section 3)'],
+                ['Dependency: order-stage event pipeline must emit real-time prep-start events', 'Confirm with Engineering before FRD sign-off'],
+              ],
+            },
           },
         ],
       },
       frd: {
         title: 'Functional Requirements Document',
-        coming: true,
-        sections: [],
+        coming: false,
+        sections: [
+          {
+            heading: '2.1 User Stories',
+            body: `US-1 (Customer - genuine mistake): As a customer who cancels within the mistake window, I want a full, frictionless refund, so that I'm not penalized for a fast correction.\nAcceptance Criteria: Refund auto-processes within Stage 1 with no manual review, unless account is abuse-flagged (FR-4).\n\nUS-2 (Customer - post-prep cancellation): As a customer cancelling after prep has started, I want to clearly understand why my refund is partial, so the policy doesn't feel arbitrary.\nAcceptance Criteria: A reason string is shown and requires explicit acknowledgment before the cancellation is confirmed.\n\nUS-3 (Restaurant - waste reduction): As a restaurant partner, I want prep to only begin once the free-cancellation window has closed, so I'm not cooking food that gets cancelled at zero recovery.\nAcceptance Criteria: Prep-start trigger fires only after Stage 1 window elapses, visible in restaurant order queue UI.\n\nUS-4 (Ops - policy tuning): As an ops stakeholder, I want to configure refund tiers and window length per city/cuisine, so I can tune the policy without engineering involvement.\nAcceptance Criteria: Config changes take effect without a code deploy; changes are logged with timestamp and author.\n\nUS-5 (Support - dispute handling): As a support agent, I want visibility into which refund tier applied and why, so I can resolve disputes without escalating to engineering.\nAcceptance Criteria: Order detail view shows cancellation timestamp, applicable tier, and refund amount breakdown.`,
+          },
+          {
+            heading: '2.2 Functional Requirements',
+            table: {
+              headers: ['ID', 'Requirement', 'Acceptance Criteria'],
+              rows: [
+                ['FR-1', 'Stage 1 (0-90s): full refund, auto-processed', 'Refund issued within [X] minutes; no manual review unless FR-4 flag'],
+                ['FR-2', 'Stage 2 (90s-prep complete): partial refund, food cost withheld', 'Refund breakdown shown to customer pre-confirmation'],
+                ['FR-3', 'Stage 3 (post-prep/dispatch): minimal/no refund', 'Order flagged and routed to downstream recovery workflow (out of scope)'],
+                ['FR-4', 'Abuse detection: flag accounts exceeding 7-day rolling cancellation threshold', 'Flagged accounts routed to manual review before Stage 1 auto-refund'],
+                ['FR-5', 'Config: refund tiers/window adjustable per city/cuisine', 'No-code config change via admin panel, changes audit-logged'],
+                ['FR-6', 'Server-side cancellation timestamp', 'Client-side timestamps rejected as source of truth; server timestamp only'],
+                ['FR-7', 'Restaurant-side prep-hold enforcement', 'Restaurant order queue displays "hold" state until Stage 1 closes'],
+                ['FR-8', 'Soft-warn state for borderline abuse patterns', 'Users approaching (not exceeding) the abuse threshold receive a soft warning before hard restriction'],
+              ],
+            },
+          },
+          {
+            heading: '2.3 Non-Functional Requirements',
+            body: `Refund-tier decision latency: under 500ms at cancellation time (must not add checkout/cancellation friction).\n\nConfig changes must propagate to all regions within 5 minutes.\n\nAudit log retention: minimum 180 days for dispute resolution.`,
+          },
+          {
+            heading: '2.4 Data Requirements',
+            body: `Order-stage event stream: Order_placed, prep_started, prep_completed, dispatched, delivered - each with server-side timestamp.\n\nCancellation event: timestamp, stage-at-cancellation, refund tier applied, refund amount.\n\nAbuse-detection input: rolling cancellation count per account, 7-day window.`,
+          },
+          {
+            heading: '2.5 Edge Cases',
+            body: `Cancellation at exactly the window boundary (89s vs 91s) - resolved via server timestamp, no manual interpretation.\n\nRestaurant manually overrides hold and starts prep early - system cannot assume restaurant compliance; ops override path required.\n\nLegitimate repeat canceller (e.g., frequently reordering due to app bugs) - soft-warn state (FR-8) prevents false-positive hard restriction.`,
+          },
+        ],
       },
       abTest: {
         title: 'A/B Test Design',
         coming: false,
         sections: [
           {
-            heading: 'Test 1: Buffer Window Duration',
-            body: `Hypothesis: A 90-second Stage 1 buffer (vs. the default 60-second) will reduce overall cancellation rates without meaningfully increasing restaurant prep waste, because the additional 30 seconds resolves more genuine decision friction cases.\n\nControl: 60-second Stage 1 buffer.\nVariant: 90-second Stage 1 buffer.\n\nPrimary metric: Overall cancellation rate (7-day window post-exposure).\nSecondary metrics: Stage 1 vs Stage 2 cancellation split; restaurant prep-start-before-60s rate; customer satisfaction score on cancelled orders.\n\nGuardrail metrics: Restaurant TAT compliance rate (must not degrade >2pp); delivery partner wait time at restaurant.\n\nSegment: New users only in first two weeks (lower abuse risk baseline). Expand to full cohort on positive signal.\n\nExpected duration: 3 weeks minimum for statistical significance at 80% power, assuming 5% baseline cancellation rate and MDE of 15% relative reduction.`,
+            heading: '3.1 Background',
+            body: `Stage 1 window is proposed at 90 seconds based on directional pattern observation, not validated data. This experiment resolves the actual optimal window length.`,
           },
           {
-            heading: 'Test 2: HotDrop Notification Format',
-            body: `Hypothesis: A push notification for HotDrop deals will drive higher conversion than an in-app banner, because it reaches users who are not currently in the app.\n\nControl: In-app banner surfaced to users who open the app within the HotDrop window.\nVariant: Push notification sent to eligible nearby users regardless of app state.\n\nPrimary metric: HotDrop deal conversion rate (click to order).\nSecondary metrics: App open rate from push; opt-out rate from HotDrop push notifications; subscription upsell rate from HotDrop touchpoint.\n\nGuardrail metrics: Push notification opt-out rate must stay below 3% lift vs baseline.\n\nTargeting: Users within 2km radius, opted-in to push notifications, peak hours only in Phase 1.\n\nExpected duration: 2 weeks with minimum 500 HotDrop events per arm.`,
+            heading: '3.2 Hypothesis',
+            body: `H1: Extending the free-cancellation window from 90s to 120s increases the share of cancellations captured at zero food-cost impact, without materially increasing average delivery time.\n\nH0 (null): No statistically significant difference in capture rate between 90s and 120s, and/or delivery time regresses.`,
           },
           {
-            heading: 'Test 3: HotDrop Incentive Structure',
-            body: `Hypothesis: Fee waiver plus loyalty points will drive higher HotDrop conversion and repeat ordering than fee waiver alone, because points create a reason to return beyond the immediate deal.\n\nControl: Fee waiver only (platform + delivery fee waived).\nVariant: Fee waiver + 2x loyalty points on HotDrop order.\n\nPrimary metric: HotDrop conversion rate.\nSecondary metrics: 30-day reorder rate from HotDrop buyers; subscription conversion rate from HotDrop touchpoint; average order value on HotDrop vs standard orders.\n\nGuardrail metrics: Points liability cost must not exceed 60% of fee waiver value recovered.\n\nExpected duration: 4 weeks to capture 30-day reorder signal.`,
+            heading: '3.3 Experiment Design',
+            body: `Control (A): 90-second window\nVariant (B): 120-second window\nRandomization unit: User ID (prevents inconsistent experience across a user's own orders)\nSplit: 50/50\nRollout scope: 2-3 mid-density cities in phase 1, to control for city-density confounds before wider rollout`,
           },
           {
-            heading: 'Test Prioritisation and Run Order',
-            body: `Tests 1 and 2 can run concurrently across non-overlapping user segments. Test 3 runs after Test 2 concludes - it builds on the confirmed notification format from Test 2 to isolate incentive structure as the only variable.\n\nAll tests require pre-registration of primary metric, power calculation sign-off, and ops dashboard alert thresholds set before launch.`,
+            heading: '3.4 Metrics',
+            body: `Primary: % of cancellations captured within the free window (occurring before prep start).\n\nGuardrails (must not regress): Average delivery time; order completion rate; restaurant prep-waste rate.\n\nDiagnostic: Cancellation distribution by time bucket (0-30s / 30-60s / 60-90s / 90-120s) - informs whether 120s is the right next test point or a different window entirely.`,
+          },
+          {
+            heading: '3.5 Sample Size & Duration',
+            body: `Illustrative calculation: assuming ~60% baseline capture rate (to be replaced with real historical data pre-test) and targeting a 5-percentage-point detectable lift at 95% confidence / 80% power, approximately 2,000-3,000 cancellation events per arm are needed. Given typical cancellation rates as a fraction of total orders, this is estimated at 2-3 weeks of data collection in a mid-density city.`,
+          },
+          {
+            heading: '3.6 Rollout & Monitoring Plan',
+            body: `Launch in test cities, monitor guardrails daily for first 72 hours (early-stop trigger if guardrail breach exceeds threshold).\n\nRun minimum 2 weeks regardless of early significance, to rule out novelty effects.\n\nRead results against decision framework (3.7).\n\nIf shipped, monitor for 30 days post-rollout before considering further window extension tests.`,
+          },
+          {
+            heading: '3.7 Decision Framework',
+            table: {
+              headers: ['Outcome', 'Action'],
+              rows: [
+                ['Primary metric improves, guardrails hold', 'Ship 120s as default; test further extension (e.g., 150s)'],
+                ['No significant lift on primary metric', 'Do not ship on window length; investigate refund-tier clarity (reason string) as alternate lever'],
+                ['Guardrail failure (delivery time regresses)', 'Do not ship broadly; consider scoping to long-prep-time cuisine categories only'],
+              ],
+            },
+          },
+          {
+            heading: '3.8 Risks',
+            body: `Confound: Restaurants may start prep early regardless of hold state to protect their own SLA - requires restaurant-side compliance tracking as a secondary read.\n\nNovelty effect: Early post-launch behavior may not reflect steady state - minimum 2-week run enforced regardless of early results.\n\nThis is a self-directed portfolio case study. Baseline rates, sample size inputs, and quantitative targets are illustrative assumptions clearly flagged as such - in a live environment these would be derived from historical platform data prior to test design.`,
           },
         ],
       },
@@ -202,9 +276,141 @@ The result is a system where every stakeholder's incentive is aligned with the o
     ],
 
     execution: {
-      brd: { title: 'Business Requirements Document', coming: true, sections: [] },
-      frd: { title: 'Functional Requirements Document', coming: true, sections: [] },
-      abTest: { title: 'A/B Test Design', coming: true, sections: [] },
+      brd: {
+        title: 'Business Requirements Document',
+        subtitle: 'Delay Accountability Framework\nDocument Type: Combined BRD / FRD / A-B Test Design | Owner: Anand V | Status: Draft - Portfolio Case Study | Version: 1.0',
+        coming: false,
+        sections: [
+          {
+            heading: '1.1 Executive Summary',
+            body: `Late-order compensation and rating impact currently default to the delivery partner, regardless of actual cause. In many cases, delay originates from restaurant kitchen prep time, not delivery execution - yet the partner absorbs the rating damage, and the platform absorbs undifferentiated compensation cost with no attribution to root cause. This framework introduces a three-layer accountability system that attributes delay cost and rating impact to whichever party actually caused the breach, using restaurant-specific historical prep-time baselines.`,
+          },
+          {
+            heading: '1.2 Background & Problem Statement',
+            body: `Turnaround time (TAT) breaches are currently treated as a single undifferentiated event: customer complains, platform compensates, delivery partner's rating drops - without distinguishing whether the delay originated in the kitchen, in dispatch/routing, or in traffic/external conditions. This flattens accountability and removes any financial incentive for restaurants to improve prep consistency.`,
+          },
+          {
+            heading: '1.3 Business Objectives',
+            body: `Primary: Reduce restaurant-side TAT breach frequency through direct financial accountability.\nSecondary: Protect delivery partner rating scores from delays outside their control, improving partner retention.\nSecondary: Reduce undifferentiated compensation cost by attributing spend to root cause.`,
+          },
+          {
+            heading: '1.4 Stakeholders',
+            table: {
+              headers: ['Stakeholder', 'Interest / Impact'],
+              rows: [
+                ['Restaurant Partners', 'Directly financially impacted by breach attribution; needs transparent baseline methodology'],
+                ['Delivery Partners', 'Rating protection on non-attributable delays; core retention lever'],
+                ['Ops', 'Owns TAT monitoring, tier management, baseline recalculation cadence'],
+                ['Finance', 'Tracks compensation cost shift and validates savings'],
+                ['Customer Support', 'Handles disputes on attribution edge cases'],
+              ],
+            },
+          },
+          {
+            heading: '1.5 Scope',
+            body: `In scope: TAT breach detection, root-cause attribution (kitchen vs. dispatch vs. platform), restaurant compliance tiering, partner rating protection logic.\n\nOut of scope (v1): Weather/traffic-caused delays (platform-absorbed by default, not attributed to any party), customer-caused delays (e.g., unavailable at delivery - separate workflow).`,
+          },
+          {
+            heading: '1.6 Assumptions',
+            body: `Order-stage timestamps (prep start, food ready, pickup, delivery) are captured reliably and in real time.\n\nRestaurants have sufficient order volume to establish a statistically meaningful rolling baseline (low-volume restaurants may need a fallback category-average baseline).\n\nRestaurants will not mass-exit the platform in response to financial accountability, provided the mechanism is transparent and phased.`,
+          },
+          {
+            heading: '1.7 Risks & Dependencies',
+            table: {
+              headers: ['Risk', 'Mitigation'],
+              rows: [
+                ['Restaurant churn in response to payout deductions', 'Phase rollout: warning tier before financial tier; transparent baseline dashboard for restaurants'],
+                ['Low-volume restaurants lack reliable baseline data', 'Fallback to cuisine/category-level average baseline until sufficient order history exists'],
+                ['Attribution disputes (kitchen vs. dispatch ambiguity)', 'Require order-stage event granularity sufficient to isolate the breach stage; escalation SOP for ambiguous cases'],
+                ['Dependency: real-time order-stage event pipeline', 'Confirm event granularity with Engineering before FRD sign-off'],
+              ],
+            },
+          },
+        ],
+      },
+      frd: {
+        title: 'Functional Requirements Document',
+        coming: false,
+        sections: [
+          {
+            heading: '2.1 User Stories',
+            body: `US-1 (Delivery Partner - rating protection): As a delivery partner, I want my rating shielded from delays caused by restaurant prep, so I'm not penalized for a failure outside my control.\nAcceptance Criteria: Orders tagged "restaurant-caused delay" are automatically excluded from the partner's rating calculation.\n\nUS-2 (Restaurant - transparency): As a restaurant partner, I want to see my own rolling prep-time baseline and how close I am to a breach, so I can proactively manage my kitchen operations.\nAcceptance Criteria: Restaurant dashboard displays current baseline, day-part breakdown, and recent breach history.\n\nUS-3 (Ops - tiering): As an ops stakeholder, I want restaurants automatically scored into compliance tiers based on breach frequency, so consistent poor performers face escalating consequences without manual review.\nAcceptance Criteria: Tier recalculates on a defined cadence (e.g., weekly rolling window) and is visible in the ops admin panel.\n\nUS-4 (Finance - cost attribution): As a finance stakeholder, I want compensation costs tagged by root cause (kitchen/dispatch/platform-absorbed), so I can report accurately on where compensation spend originates.\nAcceptance Criteria: Every compensation event carries an attribution tag in the finance export.\n\nUS-5 (Support - dispute resolution): As a support agent, I want to see the full order-stage timeline for a delayed order, so I can resolve attribution disputes without escalating.\nAcceptance Criteria: Order detail view shows timestamped stage events (prep start, food ready, pickup, delivered) alongside the baseline comparison.`,
+          },
+          {
+            heading: '2.2 Functional Requirements',
+            table: {
+              headers: ['ID', 'Requirement', 'Acceptance Criteria'],
+              rows: [
+                ['FR-1', 'Rolling prep-time baseline per restaurant, segmented by day-part', 'Baseline recalculated on defined cadence; visible on restaurant dashboard'],
+                ['FR-2', 'Buffer zone: first N minutes of breach absorbed by platform', 'No liability shift within buffer window'],
+                ['FR-3', 'Liability shift beyond buffer: attribute to restaurant (prep) or platform (dispatch/routing)', 'Attribution based on which order-stage interval exceeded baseline'],
+                ['FR-4', 'Delivery partner rating exclusion on restaurant-attributed delays', 'Automatic exclusion, no manual flag required'],
+                ['FR-5', 'TAT compliance tiering', 'Restaurant tier recalculated weekly; tier affects in-app visibility/ranking'],
+                ['FR-6', 'Fallback baseline for low-volume restaurants', 'Category/cuisine-average baseline applied until restaurant reaches minimum order threshold'],
+                ['FR-7', 'Compensation cost attribution tagging', 'Every compensation event tagged with root-cause category for Finance reporting'],
+                ['FR-8', 'Warning-tier phase before financial-tier phase', 'New restaurants onboarded to warning-only tier for a defined grace period before payout deductions activate'],
+              ],
+            },
+          },
+          {
+            heading: '2.3 Non-Functional Requirements',
+            body: `Attribution decision latency: must resolve within the order lifecycle, not retroactively beyond 24 hours (dispute window).\n\nBaseline recalculation job: must complete without impacting live order-serving systems.\n\nAudit trail: every liability shift decision logged with the underlying stage-timestamp data used to make it, retained minimum 180 days.`,
+          },
+          {
+            heading: '2.4 Data Requirements',
+            body: `Order-stage event stream: order_placed, prep_started, food_ready, picked_up, delivered - each with server-side timestamp.\n\nRestaurant baseline table: rolling average prep time, segmented by day-part, with sample size per segment.\n\nCompensation ledger: amount, root-cause tag, associated order ID.`,
+          },
+          {
+            heading: '2.5 Edge Cases',
+            body: `Breach spans both kitchen and dispatch delay simultaneously - requires a defined precedence rule (e.g., attribute to the stage that individually exceeded its own baseline by the largest margin).\n\nRestaurant disputes baseline accuracy - dashboard transparency (US-2) plus a defined recalculation appeal process.\n\nNew restaurant with no baseline history - fallback category baseline (FR-6) applies until sufficient data exists.`,
+          },
+        ],
+      },
+      abTest: {
+        title: 'A/B Test Design',
+        coming: false,
+        sections: [
+          {
+            heading: '3.1 Background',
+            body: `The core untested assumption is whether financial accountability (payout deduction) actually changes restaurant prep behavior, versus restaurants simply absorbing the cost or reducing active hours to avoid breaches.`,
+          },
+          {
+            heading: '3.2 Hypothesis',
+            body: `H1: Introducing restaurant-side payout deductions for TAT breaches reduces breach frequency without triggering restaurant churn or reduced active hours.\n\nH0 (null): Breach rate is unaffected by financial accountability (suggesting the issue is structural, e.g., kitchen capacity, not incentive-driven), and/or restaurants respond by reducing active hours or churning.`,
+          },
+          {
+            heading: '3.3 Experiment Design',
+            body: `Control (A): Existing undifferentiated compensation model (no attribution, no restaurant payout impact).\nVariant (B): Full accountability model - baseline tracking, buffer, liability shift, payout deduction on breach.\nRandomization unit: Restaurant ID, matched cohorts by cuisine type and order volume to reduce confounds.\nSplit: 50/50 within matched cohort.\nScope: Single city, phase 1.`,
+          },
+          {
+            heading: '3.4 Metrics',
+            body: `Primary: TAT breach rate per restaurant, pre- vs. post-intervention.\n\nGuardrails: Restaurant opt-out/churn rate; active hours per restaurant (detect if restaurants reduce availability to dodge breaches); customer complaint rate on delayed orders.\n\nDiagnostic: Breach rate segmented by day-part, to see if the intervention works differently at peak vs. off-peak.`,
+          },
+          {
+            heading: '3.5 Sample Size & Duration',
+            body: `Directional: requires a sufficient number of matched restaurant pairs per cohort to detect a meaningful breach-rate change at the cohort level. Actual required sample size depends on baseline breach-rate variance across restaurants - to be calculated from historical TAT logs before test launch, not assumed.`,
+          },
+          {
+            heading: '3.6 Rollout & Monitoring Plan',
+            body: `Onboard variant-group restaurants to warning-tier only for a 2-week grace period (per FR-8) before financial tier activates, to avoid a shock rollout.\n\nMonitor guardrails weekly; early-stop if churn rate in variant group exceeds a defined threshold relative to control.\n\nRun for a minimum of 6-8 weeks post financial-tier activation to capture behavior change beyond initial reaction.`,
+          },
+          {
+            heading: '3.7 Decision Framework',
+            table: {
+              headers: ['Outcome', 'Action'],
+              rows: [
+                ['Breach rate drops, guardrails hold', 'Roll out city-wide, then expand; consider tuning buffer window next'],
+                ['Breach rate unchanged', 'Investigate structural causes (kitchen capacity, staffing) - financial incentive alone may be insufficient'],
+                ['Churn or reduced active hours spikes', 'Soften rollout - extend warning-tier grace period, reduce deduction severity, or exclude low-margin restaurant segments from financial tier'],
+              ],
+            },
+          },
+          {
+            heading: '3.8 Risks',
+            body: `Restaurant relationship risk: Financial accountability is a sensitive lever - a poorly communicated rollout risks partner trust even if the mechanism is fair. Transparent baseline dashboards (US-2) are a prerequisite, not an optional add-on.\n\nAttribution accuracy risk: If root-cause attribution is wrong even occasionally, restaurants will contest the entire system's legitimacy - dispute SOP (US-5) must be solid before wide rollout.\n\nThis is a self-directed portfolio case study. Baseline methodology, sample size inputs, and quantitative targets are illustrative assumptions clearly flagged as such - in a live environment these would be derived from historical platform data prior to test design.`,
+          },
+        ],
+      },
     },
   },
 ]
