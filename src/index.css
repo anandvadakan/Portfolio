@@ -5,14 +5,14 @@
 }
 
 :root {
-  --bg: #f7f7f5;
-  --text-primary: #111218;
-  --text-secondary: #4a4f5c;
-  --text-muted: #8a909e;
-  --accent: #3d5a80;
-  --border: #e4e4e0;
-  --card-bg: #ffffff;
-  --nav-bg: rgba(247, 247, 245, 0.88);
+  --bg: #131210;
+  --text-primary: #f0ece6;
+  --text-secondary: #a09488;
+  --text-muted: #665f58;
+  --accent: #f97316;
+  --border: #272420;
+  --card-bg: #1c1916;
+  --nav-bg: rgba(19, 18, 16, 0.88);
   font-size: 16px;
 }
 

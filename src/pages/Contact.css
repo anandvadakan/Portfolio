@@ -65,8 +65,8 @@
 
 .contact__submit {
   align-self: flex-start;
-  background: var(--text-primary);
-  color: var(--bg);
+  background: var(--accent);
+  color: #fff;
   padding: 0.7rem 1.6rem;
   border-radius: 8px;
   font-size: 0.875rem;
@@ -76,7 +76,7 @@
 }
 
 .contact__submit:hover:not(:disabled) {
-  background: #333;
+  background: #ea6a0a;
 }
 
 .contact__submit:disabled {
